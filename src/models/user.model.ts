@@ -7,7 +7,7 @@ interface IUser extends Document {
   fullName?: string;
   phone?: string;
   dateOfBirth?: Date;
-  gender?: string;
+  gender?: 'male' | 'female' | 'other';
   city?: string;
   preferredType?: 'hotel' | 'restaurant';
   rewardPoints?: number;
@@ -26,7 +26,7 @@ const userSchema = new Schema<IUser>(
     fullName: String,
     phone: String,
     dateOfBirth: Date,
-    gender: String,
+    gender: { type: String, enum: ['male', 'female', 'other'] },
     city: String,
     preferredType: { type: String, enum: ['hotel', 'restaurant'] },
     rewardPoints: { type: Number, default: 0 },
