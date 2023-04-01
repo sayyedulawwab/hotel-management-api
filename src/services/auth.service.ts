@@ -17,6 +17,7 @@ class AuthService {
         city,
         preferredType,
       } = newUser;
+
       const user: IUser | null = await User.findOne({ email });
 
       if (user) {
@@ -26,7 +27,13 @@ class AuthService {
         };
       }
 
-      const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
+      const SALT_ROUNDS = Number.isInteger(process.env.SALT_ROUNDS)
+        ? process.env.SALT_ROUNDS
+        : 10;
+      console.log(
+        '🚀 ~ file: auth.service.ts:30 ~ AuthService ~ register ~ SALT_ROUNDS:',
+        SALT_ROUNDS
+      );
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
       const newUserToSave = new User({
@@ -77,7 +84,7 @@ class AuthService {
         expiresIn: '1h',
       });
 
-      const { password, ...others } = user;
+      const { password, ...others } = user._doc;
 
       const loggedInUser = { ...others, token };
 

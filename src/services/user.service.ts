@@ -4,13 +4,14 @@ import { HTTP_STATUS_CODES } from '../util/statusMessages';
 
 const getAllUsers = async () => {
   try {
-    const users = await User.find();
+    const users = await User.find().select('-password');
     if (!users) {
       throw {
         status: HTTP_STATUS_CODES.NOT_FOUND,
         message: `No user found`,
       };
     }
+
     return users;
   } catch (error: any) {
     throw new Error(error);

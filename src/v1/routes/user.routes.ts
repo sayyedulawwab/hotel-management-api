@@ -5,10 +5,10 @@ import verifyJWT from '../../middlewares/verifyJWT';
 export const router = express.Router();
 
 // GET: Get all users
-router.route('/users').get(UserController.getAll);
+router.route('/users').get(verifyJWT, UserController.getAll);
 
 // GET: Get user by id
-router.route('/users/:userId').get(UserController.getById);
+router.route('/users/:userId').get(verifyJWT, UserController.getById);
 
 // PUT: Update user by id
 router.route('/users/:userId').put(verifyJWT, UserController.update);

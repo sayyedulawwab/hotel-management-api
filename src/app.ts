@@ -4,7 +4,8 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import connect from './database';
-import { router as v1Router } from './v1/routes/auth.routes';
+import { router as v1AuthRouter } from './v1/routes/auth.routes';
+import { router as v1UserRouter } from './v1/routes/user.routes';
 
 dotenv.config();
 
@@ -18,7 +19,8 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('common'));
 
-app.use('/api/v1', v1Router);
+app.use('/api/v1', v1AuthRouter);
+app.use('/api/v1', v1UserRouter);
 
 app.listen(PORT, async () => {
   await connect();
