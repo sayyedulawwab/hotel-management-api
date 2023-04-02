@@ -1,10 +1,5 @@
 import { Request, Response } from 'express';
-import {
-  deleteOneUser,
-  getAllUsers,
-  getUserById,
-  updateOneUser,
-} from '../services/user.service';
+import UserService from '../services/user.service';
 import {
   HTTP_STATUS_CODES,
   HTTP_STATUS_MESSAGES,
@@ -13,7 +8,7 @@ import {
 class UserController {
   static async getAll(req: Request, res: Response) {
     try {
-      const users = await getAllUsers();
+      const users = await UserService.getAllUsers();
 
       res
         .status(HTTP_STATUS_CODES.OK)
@@ -31,7 +26,7 @@ class UserController {
   static async getById(req: Request, res: Response) {
     try {
       const userId = req.params.userId;
-      const user = await getUserById(userId);
+      const user = await UserService.getUserById(userId);
 
       res
         .status(HTTP_STATUS_CODES.OK)
@@ -50,7 +45,7 @@ class UserController {
     try {
       const { userId, ...changes } = req.body;
 
-      const user = await updateOneUser(userId, changes);
+      const user = await UserService.updateOneUser(userId, changes);
 
       res
         .status(HTTP_STATUS_CODES.OK)
@@ -69,7 +64,7 @@ class UserController {
     try {
       const userId = req.body.userId;
 
-      const user = await deleteOneUser(userId);
+      const user = await UserService.deleteOneUser(userId);
 
       res
         .status(HTTP_STATUS_CODES.OK)

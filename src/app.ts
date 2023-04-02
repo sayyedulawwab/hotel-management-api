@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import connect from './database';
-import { router as v1AuthRouter } from './v1/routes/auth.routes';
-import { router as v1UserRouter } from './v1/routes/user.routes';
+import connect from './config/database';
+import { router as v1AuthRouter } from './routes/auth.routes';
+import { router as v1UserRouter } from './routes/user.routes';
 
 dotenv.config();
 
