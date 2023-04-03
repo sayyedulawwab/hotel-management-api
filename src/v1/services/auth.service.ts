@@ -1,22 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { IUser, User } from '../models/user.model';
-import { HTTP_STATUS_CODES } from '../util/statusMessages';
+import { IUser, User } from '../models';
+import { HTTP_STATUS_CODES } from '../util';
 
 class AuthService {
   static async register(newUser: any) {
     try {
-      const {
-        email,
-        password,
-        avatar,
-        fullName,
-        phone,
-        dateOfBirth,
-        gender,
-        city,
-        preferredType,
-      } = newUser;
+      const { email, password, avatar, fullName, phone, dateOfBirth, gender, city, preferredType } = newUser;
 
       const user: IUser | null = await User.findOne({ email });
 
@@ -27,13 +17,8 @@ class AuthService {
         };
       }
 
-      const SALT_ROUNDS = Number.isInteger(process.env.SALT_ROUNDS)
-        ? process.env.SALT_ROUNDS
-        : 10;
-      console.log(
-        '🚀 ~ file: auth.service.ts:30 ~ AuthService ~ register ~ SALT_ROUNDS:',
-        SALT_ROUNDS
-      );
+      const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
+
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
       const newUserToSave = new User({
@@ -65,10 +50,7 @@ class AuthService {
           message: 'user not found',
         };
 
-      const isPasswordValid = await bcrypt.compare(
-        inputPassword,
-        user.password
-      );
+      const isPasswordValid = await bcrypt.compare(inputPassword, user.password);
 
       if (!isPasswordValid) {
         throw {
@@ -95,4 +77,4 @@ class AuthService {
   }
 }
 
-export default AuthService;
+export { AuthService };

@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-// Extend the Request interface
-
 declare global {
   namespace Express {
     interface Request {
@@ -30,4 +28,4 @@ class AuthMiddleware {
   }
 }
 
-export default AuthMiddleware;
+export { AuthMiddleware };

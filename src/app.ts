@@ -3,9 +3,8 @@ import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import connect from './config/database';
-import { router as v1AuthRouter } from './routes/auth.routes';
-import { router as v1UserRouter } from './routes/user.routes';
+import { connect } from './v1/config';
+import { authRouter, userRouter } from './v1/routes';
 
 dotenv.config();
 
@@ -19,8 +18,8 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('common'));
 
-app.use('/api/v1', v1AuthRouter);
-app.use('/api/v1', v1UserRouter);
+app.use('/api/v1', authRouter);
+app.use('/api/v1', userRouter);
 
 app.listen(PORT, async () => {
   await connect();

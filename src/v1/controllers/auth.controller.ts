@@ -1,23 +1,11 @@
 import { Request, Response } from 'express';
-import AuthService from '../services/auth.service';
-import {
-  HTTP_STATUS_CODES,
-  HTTP_STATUS_MESSAGES,
-} from '../util/statusMessages';
+import { AuthService } from '../services';
+import { HTTP_STATUS_CODES, HTTP_STATUS_MESSAGES } from '../util';
 
 class AuthController {
   static async register(req: Request, res: Response) {
     try {
-      const {
-        email,
-        password,
-        fullName,
-        phone,
-        dateOfBirth,
-        gender,
-        city,
-        preferredType,
-      } = req.body;
+      const { email, password, fullName, phone, dateOfBirth, gender, city, preferredType } = req.body;
 
       if (email === '' || password === '') {
         res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
@@ -48,12 +36,10 @@ class AuthController {
         email: registeredUser.email,
       });
     } catch (error: any) {
-      res
-        .status(error?.status || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
-        .json({
-          status: error?.status || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
-          message: error?.message || HTTP_STATUS_MESSAGES.INTERNAL_SERVER_ERROR,
-        });
+      res.status(error?.status || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
+        status: error?.status || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+        message: error?.message || HTTP_STATUS_MESSAGES.INTERNAL_SERVER_ERROR,
+      });
     }
   }
 
@@ -63,9 +49,7 @@ class AuthController {
 
       const user = await AuthService.login(email, inputPassword);
 
-      res
-        .status(HTTP_STATUS_CODES.OK)
-        .json({ status: HTTP_STATUS_CODES.OK, user });
+      res.status(HTTP_STATUS_CODES.OK).json({ status: HTTP_STATUS_CODES.OK, user });
     } catch (err: any) {
       throw new Error(err);
     }
@@ -79,4 +63,4 @@ class AuthController {
   }
 }
 
-export default AuthController;
+export { AuthController };

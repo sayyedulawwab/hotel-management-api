@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import { IUser, User } from '../models/user.model';
-import { HTTP_STATUS_CODES } from '../util/statusMessages';
+import { IUser, User } from '../models';
+import { HTTP_STATUS_CODES } from '../util';
 
 class UserService {
   static async getAllUsers() {
@@ -36,17 +36,7 @@ class UserService {
 
   static async createNewUser(newUser: any) {
     try {
-      const {
-        email,
-        password,
-        avatar,
-        fullName,
-        phone,
-        dateOfBirth,
-        gender,
-        city,
-        preferredType,
-      } = newUser;
+      const { email, password, avatar, fullName, phone, dateOfBirth, gender, city, preferredType } = newUser;
       const user: IUser | null = await User.findOne({ email });
 
       if (user) {
@@ -121,4 +111,4 @@ class UserService {
   }
 }
 
-export default UserService;
+export { UserService };

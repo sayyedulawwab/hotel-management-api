@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import AuthController from '../controllers/auth.controller';
+import { AuthController } from '../controllers';
 
 const router = express.Router();
 
@@ -11,19 +11,14 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname)
-    );
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   },
 });
 
 const upload = multer({ storage: storage });
 
 // REGISTER
-router
-  .route('/register')
-  .post(upload.single('avatar'), AuthController.register);
+router.route('/register').post(upload.single('avatar'), AuthController.register);
 
 // LOGIN
 router.route('/login').post(AuthController.login);
@@ -31,4 +26,4 @@ router.route('/login').post(AuthController.login);
 // LOGOUT
 router.route('/logout').post(AuthController.logout);
 
-export { router };
+export { router as authRouter };
