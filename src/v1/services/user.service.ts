@@ -3,7 +3,7 @@ import { IUser, User } from '../models';
 import { HTTP_STATUS_CODES } from '../util';
 
 class UserService {
-  static async getAllUsers() {
+  static async getAll() {
     try {
       const users = await User.find().select('-password');
       if (!users) {
@@ -19,9 +19,9 @@ class UserService {
     }
   }
 
-  static async getUserById(userId: string) {
+  static async getById(userId: string) {
     try {
-      const user = await User.findById(userId);
+      const user = await User.findById(userId).select('-password');
       if (!user) {
         throw {
           status: HTTP_STATUS_CODES.NOT_FOUND,
@@ -34,7 +34,7 @@ class UserService {
     }
   }
 
-  static async createNewUser(newUser: any) {
+  static async create(newUser: any) {
     try {
       const { email, password, avatar, fullName, phone, dateOfBirth, gender, city, preferredType } = newUser;
       const user: IUser | null = await User.findOne({ email });
@@ -68,7 +68,7 @@ class UserService {
     }
   }
 
-  static async updateOneUser(userId: string, changedUser: any) {
+  static async updateOne(userId: string, changedUser: any) {
     try {
       const user: IUser | null = await User.findById(userId);
 
@@ -86,6 +86,7 @@ class UserService {
         },
         { new: true }
       );
+      console.log('🚀 ~ file: user.service.ts:89 ~ UserService ~ updateOne ~ updatedUser:', updatedUser);
 
       return updatedUser;
     } catch (error: any) {
@@ -93,7 +94,7 @@ class UserService {
     }
   }
 
-  static async deleteOneUser(userId: string) {
+  static async deleteOne(userId: string) {
     try {
       const user: IUser | null = await User.findById(userId);
 

@@ -7,7 +7,6 @@ class AuthService {
   static async register(newUser: any) {
     try {
       const { email, password, avatar, fullName, phone, dateOfBirth, gender, city, preferredType } = newUser;
-
       const user: IUser | null = await User.findOne({ email });
 
       if (user) {
@@ -17,9 +16,12 @@ class AuthService {
         };
       }
 
-      const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
+      const SALT_ROUNDS =
+        process.env.SALT_ROUNDS && Number.isInteger(process.env.SALT_ROUNDS)
+          ? Number.parseInt(process.env.SALT_ROUNDS)
+          : 10;
 
-      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUserToSave = new User({
         email: email,

@@ -5,7 +5,7 @@ import { HTTP_STATUS_CODES, HTTP_STATUS_MESSAGES } from '../util';
 class UserController {
   static async getAll(req: Request, res: Response) {
     try {
-      const users = await UserService.getAllUsers();
+      const users = await UserService.getAll();
 
       res.status(HTTP_STATUS_CODES.OK).json({ status: HTTP_STATUS_CODES.OK, users });
     } catch (error: any) {
@@ -19,7 +19,7 @@ class UserController {
   static async getById(req: Request, res: Response) {
     try {
       const userId = req.params.userId;
-      const user = await UserService.getUserById(userId);
+      const user = await UserService.getById(userId);
 
       res.status(HTTP_STATUS_CODES.OK).json({ status: HTTP_STATUS_CODES.OK, user });
     } catch (error: any) {
@@ -32,9 +32,9 @@ class UserController {
 
   static async update(req: Request, res: Response) {
     try {
-      const { userId, ...changes } = req.body;
-
-      const user = await UserService.updateOneUser(userId, changes);
+      const userId = req.params.userId;
+      const changes = req.body;
+      const user = await UserService.updateOne(userId, changes);
 
       res.status(HTTP_STATUS_CODES.OK).json({ status: HTTP_STATUS_CODES.OK, user });
     } catch (error: any) {
@@ -47,9 +47,9 @@ class UserController {
 
   static async delete(req: Request, res: Response) {
     try {
-      const userId = req.body.userId;
+      const userId = req.params.userId;
 
-      const user = await UserService.deleteOneUser(userId);
+      const user = await UserService.deleteOne(userId);
 
       res.status(HTTP_STATUS_CODES.OK).json({ status: HTTP_STATUS_CODES.OK, user });
     } catch (error: any) {
