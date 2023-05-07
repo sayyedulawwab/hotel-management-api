@@ -3,7 +3,7 @@ import { IUser, User } from '../models';
 import { HTTP_STATUS_CODES } from '../util';
 
 class UserService {
-  static async getAll() {
+  async getAll() {
     try {
       const users = await User.find().select('-password');
       if (!users) {
@@ -19,7 +19,7 @@ class UserService {
     }
   }
 
-  static async getById(userId: string) {
+  async getById(userId: string) {
     try {
       const user = await User.findById(userId).select('-password');
       if (!user) {
@@ -34,7 +34,7 @@ class UserService {
     }
   }
 
-  static async create(newUser: any) {
+  async create(newUser: any) {
     try {
       const { email, password, avatar, fullName, phone, dateOfBirth, gender, city, preferredType } = newUser;
       const user: IUser | null = await User.findOne({ email });
@@ -68,7 +68,7 @@ class UserService {
     }
   }
 
-  static async updateOne(userId: string, changedUser: any) {
+  async updateOne(userId: string, changedUser: any) {
     try {
       const user: IUser | null = await User.findById(userId);
 
@@ -94,7 +94,7 @@ class UserService {
     }
   }
 
-  static async deleteOne(userId: string) {
+  async deleteOne(userId: string) {
     try {
       const user: IUser | null = await User.findById(userId);
 
@@ -112,4 +112,4 @@ class UserService {
   }
 }
 
-export { UserService };
+export default new UserService();

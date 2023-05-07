@@ -3,7 +3,7 @@ import { UserService } from '../services';
 import { HTTP_STATUS_CODES, HTTP_STATUS_MESSAGES } from '../util';
 
 class UserController {
-  static async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response) {
     try {
       const users = await UserService.getAll();
 
@@ -16,7 +16,7 @@ class UserController {
     }
   }
 
-  static async getById(req: Request, res: Response) {
+  async getById(req: Request, res: Response) {
     try {
       const userId = req.params.userId;
       const user = await UserService.getById(userId);
@@ -30,7 +30,7 @@ class UserController {
     }
   }
 
-  static async update(req: Request, res: Response) {
+  async update(req: Request, res: Response) {
     try {
       const userId = req.params.userId;
       const changes = req.body;
@@ -45,7 +45,7 @@ class UserController {
     }
   }
 
-  static async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response) {
     try {
       const userId = req.params.userId;
 
@@ -61,4 +61,4 @@ class UserController {
   }
 }
 
-export { UserController };
+export default new UserController();

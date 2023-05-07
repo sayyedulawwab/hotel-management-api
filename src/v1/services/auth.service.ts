@@ -4,7 +4,7 @@ import { IUser, User } from '../models';
 import { HTTP_STATUS_CODES } from '../util';
 
 class AuthService {
-  static async register(newUser: any) {
+  async register(newUser: any) {
     try {
       const { email, password, avatar, fullName, phone, dateOfBirth, gender, city, preferredType } = newUser;
       const user: IUser | null = await User.findOne({ email });
@@ -42,7 +42,7 @@ class AuthService {
     }
   }
 
-  static async login(email: string, inputPassword: string) {
+  async login(email: string, inputPassword: string) {
     try {
       const user = await User.findOne({ email });
 
@@ -79,4 +79,4 @@ class AuthService {
   }
 }
 
-export { AuthService };
+export default new AuthService();

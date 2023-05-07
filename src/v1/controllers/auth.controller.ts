@@ -3,7 +3,7 @@ import { AuthService } from '../services';
 import { HTTP_STATUS_CODES, HTTP_STATUS_MESSAGES } from '../util';
 
 class AuthController {
-  static async register(req: Request, res: Response) {
+  async register(req: Request, res: Response) {
     try {
       const { email, password, fullName, phone, dateOfBirth, gender, city, preferredType } = req.body;
 
@@ -43,7 +43,7 @@ class AuthController {
     }
   }
 
-  static async login(req: Request, res: Response) {
+  async login(req: Request, res: Response) {
     try {
       const { email, password: inputPassword } = req.body;
       const user = await AuthService.login(email, inputPassword);
@@ -57,7 +57,7 @@ class AuthController {
     }
   }
 
-  static async logout(req: Request, res: Response) {
+  async logout(req: Request, res: Response) {
     res.status(HTTP_STATUS_CODES.OK).json({
       status: HTTP_STATUS_CODES.OK,
       message: 'Logged out successfully',
@@ -65,4 +65,4 @@ class AuthController {
   }
 }
 
-export { AuthController };
+export default new AuthController();

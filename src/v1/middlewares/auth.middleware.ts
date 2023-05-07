@@ -10,7 +10,7 @@ declare global {
 }
 
 class AuthMiddleware {
-  static async verifyJWT(req: Request, res: Response, next: NextFunction) {
+  async verifyJWT(req: Request, res: Response, next: NextFunction) {
     const JWT_SECRET: any = process.env.JWT_SECRET;
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
@@ -28,4 +28,4 @@ class AuthMiddleware {
   }
 }
 
-export { AuthMiddleware };
+export default new AuthMiddleware();
