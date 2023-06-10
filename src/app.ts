@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { connect } from './v1/config';
+import { Database } from './v1/config';
 import { authRouter, userRouter } from './v1/routes';
 
 dotenv.config();
@@ -22,6 +22,6 @@ app.use('/api/v1', authRouter);
 app.use('/api/v1', userRouter);
 
 app.listen(PORT, async () => {
-  await connect();
+  await Database.connect();
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
